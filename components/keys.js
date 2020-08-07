@@ -1,9 +1,10 @@
 import React from 'react'
 import {Text, ScrollView, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import QRCode from 'react-native-qrcode';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 import "../shim"
 import * as bitcore from 'bitcore-lib-react-native'
-import { add } from 'bitcore-lib-react-native/lib/networks'
 
 export default class Keys extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class Keys extends React.Component {
         }
     }
 
-    getKeys = () => {
+    confirmGetKeys = () => {
         let privateKey = new bitcore.PrivateKey();
         let address = privateKey.toAddress().toJSON()
 
@@ -21,6 +22,24 @@ export default class Keys extends React.Component {
             private_key: JSON.stringify(privateKey.bn).substr(1, JSON.stringify(privateKey.bn).length - 2),
             private_key_extended: privateKey.bn.toBuffer({size:32}).toString('hex'),
             address: address.hash
+        })
+    }
+
+    getKeys = () => {
+        this.setState({
+            viewConfirm : true
+        });
+    }
+
+    deletePrivateKey = () => {
+        this.setState({
+            "viewConfirmDel" : true
+        })
+    }
+
+    confirmDeleteKey = () => {
+        this.setState({
+            "private_key" : "DELETED"
         })
     }
 
@@ -36,25 +55,88 @@ export default class Keys extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style = {{... styles.button, width: Dimensions.get('window').width * 0.33, height: Dimensions.get('window').width * 0.33}}
-                        onPress = {this.getKeys}
                     >
-                        <Text style = {styles.button_text}>G</Text>
+                        <QRCode
+                            value={this.state.address}
+                            size={Dimensions.get('window').width - 55}
+                            bgColor='grey'
+                            fgColor='white'
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity
                         style = {styles.button}
-                        onPress = {this.getKeys}
+                        onPress = {this.deletePrivateKey}
                     >
-                        <Text style = {styles.button_text}>G</Text>
+                        <Text style = {{... styles.button_text, color: "red"}}>D</Text>
                     </TouchableOpacity>
                 </View>
-                <Text>Private Key</Text>
                 <Text style={styles.text_box}>
                     {this.state.private_key}
                 </Text>
-                <Text>Address</Text>
-                <Text style={styles.text_box}>
-                    {this.state.address}
-                </Text>
+                <TouchableOpacity
+                    style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                >
+                        <QRCode
+                            value={this.state.address}
+                            size={Dimensions.get('window').width - 55}
+                            bgColor='grey'
+                            fgColor='white'
+                        />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                >
+                        <QRCode
+                            value={this.state.address}
+                            size={Dimensions.get('window').width - 55}
+                            bgColor='grey'
+                            fgColor='white'
+                        />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                >
+                        <QRCode
+                            value={this.state.address}
+                            size={Dimensions.get('window').width - 55}
+                            bgColor='grey'
+                            fgColor='white'
+                        />
+                </TouchableOpacity>
+                <ConfirmDialog
+                    title="Generate New Key"
+                    message="Are you sure about that? This action will generate new keys and remove any previuosly generated key and address."
+                    visible={this.state.viewConfirm}
+                    onTouchOutside={() => this.setState({viewConfirm: false})}
+                    positiveButton={{
+                        title: "YES",
+                        onPress: () => { 
+                            this.confirmGetKeys();
+                            this.setState({viewConfirm: false})
+                        }
+                    }}
+                    negativeButton={{
+                        title: "NO",
+                        onPress: () => this.setState({viewConfirm: false})
+                    }}
+                />
+                <ConfirmDialog
+                    title="Delete Private Key"
+                    message="You are going to delete your private key."
+                    visible={this.state.viewConfirmDel}
+                    onTouchOutside={() => this.setState({viewConfirmDel: false})}
+                    positiveButton={{
+                        title: "YES",
+                        onPress: () => { 
+                            this.confirmDeleteKey();
+                            this.setState({viewConfirmDel: false})
+                        }
+                    }}
+                    negativeButton={{
+                        title: "NO",
+                        onPress: () => this.setState({viewConfirmDel: false})
+                    }}
+                />
             </ScrollView>
         )
     }
@@ -75,11 +157,15 @@ const styles = StyleSheet.create({
         fontSize: 72
     },
     text_box: {
-        height: 130,
-        backgroundColor: "lightgrey",
+        height: 60,
+        backgroundColor: "red",
         padding: 10,
+        color: "white",
         marginBottom: 20,
         borderRadius: 5,
         overflow: "hidden"
+    },
+    qr: {
+        marginLeft: 200
     }
 })
