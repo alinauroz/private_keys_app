@@ -6,6 +6,9 @@ import Keys from './components/keys'
 
 import './shim.js'
 
+const crypto = require('crypto')
+console.log(crypto.randomBytes(10))
+
 export default function App() {
   return (
     <View style={styles.container}>

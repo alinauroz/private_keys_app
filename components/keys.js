@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import {Text, ScrollView, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 
 import "../shim"
 import * as bitcore from 'bitcore-lib-react-native'
@@ -27,12 +27,26 @@ export default class Keys extends React.Component {
     render () {
         return (
             <ScrollView>
-                <TouchableOpacity
-                    style = {styles.button}
-                    onPress = {this.getKeys}
-                >
-                    <Text style = {styles.button_text}>Generate New Pair</Text>
-                </TouchableOpacity>
+                <View style={{flexDirection:"row"}}>
+                    <TouchableOpacity
+                        style = {styles.button}
+                        onPress = {this.getKeys}
+                    >
+                        <Text style = {styles.button_text}>G</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style = {{... styles.button, width: Dimensions.get('window').width * 0.33, height: Dimensions.get('window').width * 0.33}}
+                        onPress = {this.getKeys}
+                    >
+                        <Text style = {styles.button_text}>G</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style = {styles.button}
+                        onPress = {this.getKeys}
+                    >
+                        <Text style = {styles.button_text}>G</Text>
+                    </TouchableOpacity>
+                </View>
                 <Text>Private Key</Text>
                 <Text style={styles.text_box}>
                     {this.state.private_key}
@@ -49,14 +63,16 @@ export default class Keys extends React.Component {
 const styles = StyleSheet.create({
     button: {
         padding: 10,
-        backgroundColor: "lightgrey",
-        width: 180,
         borderRadius: 3,
-        marginBottom: 20
+        marginBottom: 20,
+        width:Dimensions.get('window').width * 0.33 - 40,
+        height:Dimensions.get('window').width * 0.33 - 40,
+        marginLeft: 5,
+        marginRight: 5
     },
     button_text: {
         textAlign: "center",
-        fontWeight: "bold"
+        fontSize: 72
     },
     text_box: {
         height: 130,
