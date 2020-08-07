@@ -70,6 +70,7 @@ target 'bc01' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+  pod 'react-native-webview', :path => '../node_modules/react-native/ReactCommon/react-native-webview'
   pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
@@ -86,6 +87,10 @@ target 'bc01' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
   add_flipper_pods!
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   post_install do |installer|
     flipper_post_install(installer)
   end
