@@ -21,7 +21,8 @@ export default class Keys extends React.Component {
 
             this.setState({
                 ['private_key_' + i]: JSON.stringify(privateKey.bn).substr(1, JSON.stringify(privateKey.bn).length - 2),
-                ['address_' + i]: address.hash
+                ['address_' + i]: address.hash,
+                pk: "private_key_0"
             })
         }
     }
@@ -40,7 +41,7 @@ export default class Keys extends React.Component {
 
     confirmDeleteKey = () => {
         this.setState({
-            "private_key" : "DELETED"
+            [this.state.pk] : "DELETED " + this.state.pk
         })
     }
 
@@ -56,6 +57,7 @@ export default class Keys extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style = {{... styles.button, width: Dimensions.get('window').width * 0.33, height: Dimensions.get('window').width * 0.33}}
+                        onPress = {() => this.setState({"pk" : "private_key_0"})}
                     >
                         <QRCode
                             value={this.state.address_0}
@@ -72,10 +74,11 @@ export default class Keys extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.text_box}>
-                    {this.state.private_key_0}
+                    {this.state[this.state.pk]}
                 </Text>
                 <TouchableOpacity
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                    onPress = {() => this.setState({"pk" : "private_key_1"})}
                 >
                         <QRCode
                             value={this.state.address_1}
@@ -86,6 +89,7 @@ export default class Keys extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                    onPress = {() => this.setState({"pk" : "private_key_2"})}
                 >
                         <QRCode
                             value={this.state.address_2}
@@ -96,6 +100,7 @@ export default class Keys extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
+                    onPress = {() => this.setState({"pk" : "private_key_3"})}
                 >
                         <QRCode
                             value={this.state.address_3}
