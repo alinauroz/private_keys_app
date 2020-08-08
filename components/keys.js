@@ -15,14 +15,15 @@ export default class Keys extends React.Component {
     }
 
     confirmGetKeys = () => {
-        let privateKey = new bitcore.PrivateKey();
-        let address = privateKey.toAddress().toJSON()
+        for (i = 0; i < 4; i++) {
+            let privateKey = new bitcore.PrivateKey();
+            let address = privateKey.toAddress().toJSON()
 
-        this.setState({
-            private_key: JSON.stringify(privateKey.bn).substr(1, JSON.stringify(privateKey.bn).length - 2),
-            private_key_extended: privateKey.bn.toBuffer({size:32}).toString('hex'),
-            address: address.hash
-        })
+            this.setState({
+                ['private_key_' + i]: JSON.stringify(privateKey.bn).substr(1, JSON.stringify(privateKey.bn).length - 2),
+                ['address_' + i]: address.hash
+            })
+        }
     }
 
     getKeys = () => {
@@ -57,7 +58,7 @@ export default class Keys extends React.Component {
                         style = {{... styles.button, width: Dimensions.get('window').width * 0.33, height: Dimensions.get('window').width * 0.33}}
                     >
                         <QRCode
-                            value={this.state.address}
+                            value={this.state.address_0}
                             size={Dimensions.get('window').width - 55}
                             bgColor='grey'
                             fgColor='white'
@@ -71,13 +72,13 @@ export default class Keys extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.text_box}>
-                    {this.state.private_key}
+                    {this.state.private_key_0}
                 </Text>
                 <TouchableOpacity
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
                 >
                         <QRCode
-                            value={this.state.address}
+                            value={this.state.address_1}
                             size={Dimensions.get('window').width - 55}
                             bgColor='grey'
                             fgColor='white'
@@ -87,7 +88,7 @@ export default class Keys extends React.Component {
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
                 >
                         <QRCode
-                            value={this.state.address}
+                            value={this.state.address_2}
                             size={Dimensions.get('window').width - 55}
                             bgColor='grey'
                             fgColor='white'
@@ -97,7 +98,7 @@ export default class Keys extends React.Component {
                     style = {{... styles.button, width: Dimensions.get('window').width * 0.33, marginLeft: Dimensions.get('window').width * 0.33 - 30, height: Dimensions.get('window').width * 0.33}}
                 >
                         <QRCode
-                            value={this.state.address}
+                            value={this.state.address_3}
                             size={Dimensions.get('window').width - 55}
                             bgColor='grey'
                             fgColor='white'
